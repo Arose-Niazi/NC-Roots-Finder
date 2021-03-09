@@ -13,8 +13,11 @@ class FindRoots {
         this.method = method;
 
 
+        println("f(a) * f(b) = " + this.a + " * " + this.b +" = "+ (this.a * this.b).toFixed(fixedLength) );
         if (this.a * this.b > 0)
             return printHeading("Can not find roots! As F(a) * F(b) > 0", true, "h3");
+        println("As f(a)*f(b) < 0");
+        println("There exist a root")
 
         this.c = 1;
         this.i = 1;
