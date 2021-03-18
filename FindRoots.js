@@ -21,7 +21,7 @@ class FindRoots {
 
         this.c = 1;
         this.i = 1;
-        createTable(["i","a", "f(a)","b", "f(b)","c", "f(c)"])
+        createTable(["i","a", "f(a)","b", "f(b)","c", "f(c)"]);
         this.find();
     }
 

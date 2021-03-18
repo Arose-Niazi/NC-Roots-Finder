@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
+    <meta charset="utf-8">
     <title>Roots Finder</title>
 
     <link rel="stylesheet" href="input.css">
@@ -33,6 +33,8 @@
             <select id="Method" name="Method">
                 <option value="0">Bi-Section</option>
                 <option value="1">Regula Falsi</option>
+                <option value="2">Newton Ramphson</option>
+                <option value="3">Secent Method</option>
             </select>
 
             <input type="button" value="Calculate" onclick="GetRoots(start, end , Method)" />
@@ -49,6 +51,8 @@
 <footer>
     <script src="Writer.js"></script>
     <script src="FindRoots.js"></script>
+    <script src="Newton.js"></script>
+    <script src="Secent.js"></script>
     <script src="Runner.js"></script>
 </footer>
 </html>
