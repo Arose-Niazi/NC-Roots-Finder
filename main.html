@@ -14,10 +14,21 @@
     </div>
     <div class="block">
         <h1>Equation: <span id="equation"></span></h1>
-        <h1>Precision: 10<sup id="precision"></sup></h1>
-        <h1>Roll number: <span id="roll"></span></h1>
         <form autocomplete="on">
             <table width="100%">
+                <tr>
+                    <th><label for="Precision">Precision</label></th>
+                    <th><label for="SolveUpto">Solve Upto</label></th>
+                    <th><label for="RollNumber">Roll Number</label></th>
+                </tr>
+                <tr>
+                    <td><input type="number" maxlength="1" name="Precision" id="Precision" placeholder="Enter Precision here" value="5" required/>
+                    </td>
+                    <td><input type="number" maxlength="1" name="SolveUpto" id="SolveUpto" placeholder="Enter Solve Upto Precision here" value="5" required/>
+                    </td>
+                    <td><input type="number" maxlength="1" name="RollNumber" id="RollNumber" placeholder="Enter RollNumber" value="010" required/>
+                    </td>
+                </tr>
                 <tr>
                     <th><label for="start">Start</label></th>
                     <th><label for="end">End</label></th>
@@ -37,7 +48,7 @@
                 <option value="3">Secent Method</option>
             </select>
 
-            <input type="button" value="Calculate" onclick="GetRoots(start, end , Method)" />
+            <input type="button" value="Calculate" onclick="GetRoots(start, end , Method, Precision, SolveUpto, RollNumber)" />
             <input type="button" value="Clear output" onclick="clearOutput()" />
         </form>
     </div>

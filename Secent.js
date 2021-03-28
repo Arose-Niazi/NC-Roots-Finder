@@ -10,16 +10,18 @@ class Secent {
 
         this.c = 1;
         this.i = 1;
-        createTable(["n","x<sub>n-1</sub>", "f(x<sub>n-1</sub>)","x<sub>n</sub>", "f(x<sub>n</sub>)","x<sub>n+1</sub>", "f(x<sub>n+1</sub>)"]);
+        createTable(["n","x<sub>n-1</sub>", "f(x<sub>n-1</sub>)","x<sub>n</sub>", "f(x<sub>n</sub>)","x<sub>n+1</sub>", "f(x<sub>n+1</sub>)", "e"]);
+        this.oldc = null;
         this.find();
     }
 
     find()
     {
         this.c = this.getNext();
+        this.e = this.relativeErrorFind();
         let atC = equationSolve(this.c);
         addTableRow([this.i++, this.start, this.a, this.end, this.b, this.c, atC])
-        if(!(atC < 0 || atC > 0))
+        if(rootResultChecker(atC))
             return printHeading("Roots found at " + this.c, true, "h3");
         if(this.b.includes(atC,0))
             return printHeading("Roots found at " + this.a, true, "h3");
@@ -28,7 +30,15 @@ class Secent {
         this.a = this.b;
         this.end = this.c;
         this.b = atC;
+        this.oldc = this.c
         this.find();
+    }
+
+    relativeErrorFind()
+    {
+        if(this.oldc == null) return "-";
+        let y = ((parseFloat(this.c) - parseFloat(this.oldc))/Math.abs(this.c));
+        return y.toFixed(fixedLength);
     }
 
     getNext()

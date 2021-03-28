@@ -21,8 +21,9 @@ class FindRoots {
 
         this.c = 1;
         this.i = 1;
-        createTable(["i","a", "f(a)","b", "f(b)","c", "f(c)"]);
+        createTable(["i","a", "f(a)","b", "f(b)","c", "f(c)", "e"]);
         this.find();
+        this.oldc = null;
     }
 
     find()
@@ -31,9 +32,11 @@ class FindRoots {
             this.c = this.biSection();
         else
             this.c = this.FalsiMethod();
+
+        this.e = this.relativeErrorFind();
         let atC = equationSolve(this.c);
-        addTableRow([this.i++, this.start, this.a, this.end, this.b, this.c, atC])
-        if(!(atC < 0 || atC > 0))
+        addTableRow([this.i++, this.start, this.a, this.end, this.b, this.c, atC, this.e])
+        if(rootResultChecker(atC))
             return printHeading("Roots found at " + this.c, true, "h3");
 
         if(this.a * atC < 0)
@@ -46,14 +49,21 @@ class FindRoots {
             this.start = this.c;
             this.a = atC;
         }
+        this.oldc = this.c
         this.find();
     }
 
     biSection()
     {
         let y = ((parseFloat(this.start) + parseFloat(this.end)) / 2.0).toFixed(fixedLength);
-        console.log("y =>" + y);
         return y;
+    }
+
+    relativeErrorFind()
+    {
+        if(this.oldc == null) return "-";
+        let y = ((parseFloat(this.c) - parseFloat(this.oldc))/Math.abs(this.c));
+        return y.toFixed(fixedLength);
     }
 
     FalsiMethod()

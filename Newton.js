@@ -1,33 +1,43 @@
 class Newton {
-    constructor(start, end) {
+    constructor(start) {
         printHeading("Newton Ramphson Method", true, "h2");
 
         this.a = parseFloat(start).toFixed(fixedLength);
-        createTable(["i","a", "f(a)","f'(a)", "b", 'f(b)']);
+        createTable(["i","a", "f(a)","f'(a)", "b", 'f(b)', "e"]);
         this.i = 1;
 
         this.funSolve = equationSolve(this.a);
         this.funDeriSolve =  equationDerivativeSolve(this.a);
+        this.oldc = null;
         this.solve();
     }
 
     solve()
     {
-        if(!(this.funDeriSolve < 0 || this.funDeriSolve > 0))
+        if(rootResultChecker(this.funDeriSolve))
             return printHeading("Roots is parallel to" + this.a, true, "h3");
 
         this.b = this.calculate(this.a);
+        this.e = this.relativeErrorFind();
         let atC = equationSolve(this.b);
         if(this.funSolve.includes(atC,0))
             return printHeading("Roots found at " + this.a, true, "h3");
         addTableRow([this.i++, this.a, this.funSolve, this.funDeriSolve, this.b, atC]);
-        if(!(atC < 0 || atC > 0))
+        if(rootResultChecker(atC))
             return printHeading("Roots found at " + this.b, true, "h3");
         
         this.a = this.b;
         this.funSolve = atC;
         this.funDeriSolve = equationDerivativeSolve(this.a);
+        this.oldc = this.b
         this.solve();
+    }
+
+    relativeErrorFind()
+    {
+        if(this.oldc == null) return "-";
+        let y = ((parseFloat(this.b) - parseFloat(this.oldc))/Math.abs(this.b));
+        return y.toFixed(fixedLength);
     }
 
     calculate(val)

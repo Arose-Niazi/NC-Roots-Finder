@@ -1,52 +1,78 @@
-let equation = "xCosx - 2x<sup>2</sup> + 3x-1";
-let derivative = "e<sup>x</sup>- ln(2)/2<sup>x</sup>-2sinx";
+let equation = "sin(x) - e<sup>-x</sup>";
+let derivative = "cos(x) + e<sup>-x</sup>";
 let fixedLength = 5;
 let a = 0;
 let b = 1;
 let c = 0;
+let toCheckLength = 5;
 
 
 document.getElementById("equation").innerHTML = equation;
-document.getElementById("precision").innerHTML = (-fixedLength).toString();
-document.getElementById("roll").innerHTML = a.toString() + b.toString() + c.toString();
 
-function GetRoots(start, end, method)
+function GetRoots(start, end, method, Precision, SolveUpto, RollNumber)
 {
+    printHeading("Precision: 10<sup>-"+Precision.value+"</sup>",false, "h3");
+    printHeading("Solve Upto: 10<sup>-"+SolveUpto.value+"</sup>",false, "h3");
+    printHeading("Roll Number: "+RollNumber.value,false, "h3");
+    RollNumber = RollNumber.value.toString().split("");
+    a = parseInt(RollNumber[0]);
+    b = parseInt(RollNumber[1]);
+    c = parseInt(RollNumber[2]);
+    console.log(a);console.log(b);console.log(c);
+    toCheckLength = parseInt(SolveUpto.value);
+    fixedLength = parseInt(Precision.value);
+
     if(parseInt(start.value) > parseInt(end.value))
     {
         let x = end;
         end = start;
         start = x;
-        console.log("Switched");
     }
     if(method.value == 2)
     {
-        printHeading(derivative,false, "h3");
-        return new Newton(start.value);
+        printHeading("Derivative: "+derivative,false, "h3");
+        new Newton(start.value);
+    }
+    else if(method.value == 3)
+    {
+        new Secent(start.value, end.value);
+    }
+    else
+    {
+        new FindRoots(start.value, end.value, method.value);
     }
 
-    if(method.value == 3)
-        return new Secent(start.value, end.value);
-
-    new FindRoots(start.value, end.value, method.value);
+    println("<hr>");
 }
 
-function equationSolve(value)
+function equationSolve(x)
 {
-    let x = value*Math.cos(value) - 2 * Math.pow(value,2) + 3*value - 1;
+    let y = Math.sin(x) - Math.pow(Math.E, -x);
 
-    return (x).toFixed(fixedLength);
+    return (y).toFixed(fixedLength);
 }
 
-function equationDerivativeSolve(value)
+function equationDerivativeSolve(x)
 {
-    let x = Math.pow(Math.E,value) - (Math.log(2)/Math.pow(2,value)) - (2*Math.sin(value));
+    let y = Math.cos(x) + Math.pow(Math.E, -x);
 
-    return (x).toFixed(fixedLength);
+    return (y).toFixed(fixedLength);
 }
 
 function clearOutput()
 {
     document.getElementById("Output").innerHTML="";
+}
+
+function rootResultChecker(value)
+{
+    //console.log("before ->" + value);
+    value = value.toString().slice(0, value.toString().length - (fixedLength - toCheckLength));
+    //console.log("after ->" + value);
+    value = parseFloat(value);
+
+    if(!(value < 0 || value > 0))
+        return true;
+    return false;
 }
 
