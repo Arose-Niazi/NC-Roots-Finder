@@ -20,7 +20,7 @@ class Secent {
         this.c = this.getNext();
         this.e = this.relativeErrorFind();
         let atC = equationSolve(this.c);
-        addTableRow([this.i++, this.start, this.a, this.end, this.b, this.c, atC])
+        addTableRow([this.i++, this.start, this.a, this.end, this.b, this.c, atC, this.e])
         if(rootResultChecker(atC))
             return printHeading("Roots found at " + this.c, true, "h3");
         if(this.b.includes(atC,0))
