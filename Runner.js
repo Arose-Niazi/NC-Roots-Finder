@@ -1,27 +1,48 @@
-let equation = "sin(x) - e<sup>-x</sup>";
-let derivative = "cos(x) + e<sup>-x</sup>";
+//Variables to be used
 let fixedLength = 5;
-let a = 0;
-let b = 1;
-let c = 0;
+let a = b = c = d = e = f = 0;
 let toCheckLength = 5;
+let scope;
+let equation;
+let derivative;
+const allConstants = ["a","b", "c", "d", "e", "f"];
 
+const keyValue = (input) => Object.entries(input).forEach(([key,value]) => {
+    println(key +" = "+ value);
+});
 
-document.getElementById("equation").innerHTML = equation;
-
-function GetRoots(start, end, method, Precision, SolveUpto, RollNumber)
+function preformSettings(values, Precision, SolveUpto, eq)
 {
-    printHeading("Precision: 10<sup>-"+Precision.value+"</sup>",false, "h3");
-    printHeading("Solve Upto: 10<sup>-"+SolveUpto.value+"</sup>",false, "h3");
-    printHeading("Roll Number: "+RollNumber.value,false, "h3");
-    RollNumber = RollNumber.value.toString().split("");
-    a = parseInt(RollNumber[0]);
-    b = parseInt(RollNumber[1]);
-    c = parseInt(RollNumber[2]);
-    console.log(a);console.log(b);console.log(c);
+
+    values = values.value.toString();
+    scope = {};
+    if(values != "")
+    {
+        values =values.split(",");
+        for(let i = 0; i<values.length; i++)
+        {
+            scope[allConstants[i]] =  parseInt(values[i]);
+        }
+    }
+    
     toCheckLength = parseInt(SolveUpto.value);
     fixedLength = parseInt(Precision.value);
+    equation = eq.value;
+    console.log(scope);
+}
 
+function GetRoots(start, end, method, Precision, SolveUpto, values, eq)
+{
+    preformSettings(values, Precision, SolveUpto, eq);
+    printHeading("Precision: 10<sup>-"+fixedLength+"</sup>",false, "h3");
+    printHeading("Solve Upto: 10<sup>-"+toCheckLength+"</sup>",false, "h3");
+   
+    printHeading("Equation: "+math.parse(equation).toHTML(),false, "h3");
+    printHeading("Values: ",false, "h3");
+    keyValue(scope);
+
+    equation = math.simplify(equation,scope).toString();
+    printHeading("Simplified Equation: "+math.parse(equation).toHTML(),false, "h3");
     if(parseInt(start.value) > parseInt(end.value))
     {
         let x = end;
@@ -30,7 +51,8 @@ function GetRoots(start, end, method, Precision, SolveUpto, RollNumber)
     }
     if(method.value == 2)
     {
-        printHeading("Derivative: "+derivative,false, "h3");
+        derivative = getDerivaite();
+        printHeading("Derivative: "+math.parse(derivative).toHTML(),false, "h3");
         new Newton(start.value);
     }
     else if(method.value == 3)
@@ -47,16 +69,17 @@ function GetRoots(start, end, method, Precision, SolveUpto, RollNumber)
 
 function equationSolve(x)
 {
-    let y = Math.sin(x) - Math.pow(Math.E, -x);
+    return math.evaluate(equation, {x}).toFixed(fixedLength);  
+}
 
-    return (y).toFixed(fixedLength);
+function getDerivaite()
+{
+    return math.simplify(math.derivative(equation, "x")).toString();
 }
 
 function equationDerivativeSolve(x)
 {
-    let y = Math.cos(x) + Math.pow(Math.E, -x);
-
-    return (y).toFixed(fixedLength);
+    return math.evaluate(derivative, {x}).toFixed(fixedLength);  
 }
 
 function clearOutput()

@@ -3,8 +3,8 @@ class Newton {
         printHeading("Newton Ramphson Method", true, "h2");
 
         this.a = parseFloat(start).toFixed(fixedLength);
-        createTable(["i","a", "f(a)","f'(a)", "b", 'f(b)', "e"]);
-        this.i = 1;
+        createTable(["n","x<sub>n</sub>", "f(x<sub>n</sub>)","ff(x<sub>n</sub>)", "x<sub>n+1</sub>", 'f(x<sub>n+1</sub>)', "e"]);
+        this.i = 0;
 
         this.funSolve = equationSolve(this.a);
         this.funDeriSolve =  equationDerivativeSolve(this.a);
@@ -22,7 +22,7 @@ class Newton {
         let atC = equationSolve(this.b);
         if(this.funSolve.includes(atC,0))
             return printHeading("Roots found at " + this.a, true, "h3");
-        addTableRow([this.i++, this.a, this.funSolve, this.funDeriSolve, this.b, atC]);
+        addTableRow([this.i++, this.a, this.funSolve, this.funDeriSolve, this.b, atC, this.e]);
         if(rootResultChecker(atC))
             return printHeading("Roots found at " + this.b, true, "h3");
         
